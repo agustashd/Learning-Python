@@ -13,7 +13,7 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 app.config['SECRET_KEY'] = 'a random string'
 
-class MyForm(FlaskForm):
+class LogForm(FlaskForm):
     name = StringField('Username:', validators=[DataRequired()])
     password = PasswordField('Password:', validators=[DataRequired()])
     submit = SubmitField('Login')
@@ -32,24 +32,24 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    testform = MyForm()
-    if testform.validate_on_submit():
-        user_password = [testform.name.data, testform.password.data]
-        with open('users.csv', newline='') as f:
-            filereader = csv.reader(f)
+    loginForm = LogForm()
+    if loginForm.validate_on_submit():
+        user_password = [loginForm.name.data, loginForm.password.data]
+        with open('users.csv', newline='') as csvFile:
+            filereader = csv.reader(csvFile)
             found = False
             for row in filereader:
                 if user_password == row:
                     found = True
-                    session['username'] = testform.name.data
+                    session['username'] = loginForm.name.data
                     return render_template('login.html',
-                                            form=testform,
+                                            form=loginForm,
                                             username=session.get('username'))
             if found is False:
                 flash('Wrong username or password')
                 return redirect('/login')
     return render_template('login.html',
-                            form=testform,
+                            form=loginForm,
                             username=session.get('username'))
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -59,31 +59,31 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    regform = RegForm()
-    if regform.validate_on_submit():
+    regForm = RegForm()
+    if regForm.validate_on_submit():
         duplicate = False
-        with open('users.csv', newline='') as f:
-            filereader = csv.reader(f)
+        with open('users.csv', newline='') as csvFile:
+            filereader = csv.reader(csvFile)
             for row in filereader:
-                if regform.name.data == row[0]:
+                if regForm.name.data == row[0]:
                     duplicate = True
         if duplicate:
             flash('Username already exists')
-        elif regform.password.data != regform.repassword.data:
+        elif regForm.password.data != regForm.repassword.data:
             flash('Password does not match')
         else:
-            with open('users.csv', 'a', newline='') as f:
-                filewriter = csv.writer(f)
-                filewriter.writerow([regform.name.data, regform.password.data])
+            with open('users.csv', 'a', newline='') as csvFile:
+                filewriter = csv.writer(csvFile)
+                filewriter.writerow([regForm.name.data, regForm.password.data])
             return redirect('/login')
-    return render_template('register.html', form=regform)
+    return render_template('register.html', form=regForm)
 
 @app.route('/data', methods=['GET', 'POST'])
 def data():
     if 'username' in session:
-        with open('data.csv', newline='') as f:
-            data_table = csv.reader(f)
-            row1 = next(data_table)
+        with open('data.csv', newline='') as csvFile:
+            dataTable = csv.reader(csvFile)
+            row1 = next(dataTable)
             return render_template('data.html',
                                     row1=row1,
                                     data_table=data_table,
