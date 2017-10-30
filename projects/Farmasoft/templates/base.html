@@ -1,0 +1,77 @@
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename = 'favicon.png') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename = 'favicon.png') }}" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="../static/footer.js"></script>
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">Farmasoft</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            {% if username %}
+            <ul class="nav navbar-nav">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/dataVerification">Verificacion de datos</a></li>
+                <li><a href="/lastSales">Ultimas ventas</a></li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Consultas <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="/productosPorCliente">Productos por cliente</a></li>
+                      <li><a href="/clientesPorProducto">Clientes por producto</a></li>
+                      <li><a href="/productosMasVendidos">Productos mas vendidos</a></li>
+                      <li><a href="/mejoresClientes">Mejores clientes</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/login"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+            {% else %}
+            <ul class="nav navbar-nav">
+                    <li><a href="/">Inicio</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Registrarse</a></li>
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% block page_content %}{% endblock %}
+</div>
+<div class="text-center" style="width: 100%">
+    {% block footer %}
+    <div class="blockquote-footer">
+        Copyright © 2017 Farmasoft <i class="glyphicon glyphicon-plus"></i>
+        made by <a href="https://github.com/agustashd">Agustin</a>
+        <i class="fa fa-github" aria-hidden="true"></i>
+    </div>
+    {% endblock %}
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{{ moment.lang('es') }}
+{% endblock %}
+

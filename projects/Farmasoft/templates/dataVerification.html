@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Verificacion de datos{% endblock %}
+
+{% block page_content %}
+<div class="page-header table-responsive">
+{% if username %}
+<h1>Verificacion de datos</h1><br>
+<table class="table table-bordered table-hover">
+    <thead><th class="bg-success">Estado</th></thead>
+    <tbody>
+    <tr>
+        {% for status in fileStatus %}
+        <td>{{ status }}</td>
+        {% endfor %}
+    </tr>
+    </tbody>
+</table>
+{% else %}
+<h1>Necesita estar logeado para ver esta seccion. Ingrese <a href="/login">aqui!</a></h1>        
+{% endif %}    
+</div>
+{% endblock %}

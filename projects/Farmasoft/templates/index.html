@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Farmasoft{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
     {% if username %}
-        <h1>Welcome, <em>{{ username }}</em></h1>
+    <h1>Bienvenido, <em>{{ username }}</em></h1>
     {% else %}
-        <h1>Welcome, <a href="/login">Login here!</a></h1>
+    <h1>Bienvenido a Farmasoft, <a href="/login">ingrese aqui!</a></h1>
     {% endif %}    
     <p>Esta página se accedió en la siguiente fecha y hora: <strong>{{ moment(fecha_actual).format('LLLL') }}.</strong></p>
-    <p>Eso fue <em>{{ moment(fecha_actual).fromNow(refresh=True) }}</em></p>
+    <p>Esto fue <em>{{ moment(fecha_actual).fromNow(refresh=True) }}</em></p>
 </div>
 {% endblock %}

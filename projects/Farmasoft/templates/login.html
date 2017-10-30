@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+{% if username %}
+    <h1> Ingreso como {{username}}, <a href="/logout">Logout</a> </h1>
+{% else %}
+<form method="POST" action="/login">
+    {{ form.csrf_token }}
+    {{ form.username.label }}<br>
+    {{ form.username(size=20) }}<br>
+    {{ form.password.label }}<br>
+    {{ form.password(size=20) }} <br>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}  
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<br>
+{{ form.submit }}
+</form>
+<p>Nuevo usuario? <a href="/register">Registrese aqui!</a></p>
+
+{% endif %}
+</div>
+{% endblock %}
