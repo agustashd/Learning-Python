@@ -168,6 +168,6 @@ def fieldError(e):
     return redirect('/dataVerification')
 
 
-# debug=False or it wotn return Error 500
+# debug=False o no devuelve codigo de error 500
 if __name__ == "__main__":
     app.run(debug=True)
