@@ -163,9 +163,9 @@ def fileNotFound(e):
 
 # No es lo ideal, se podria sacar pero intenta
 # contemplar cualquier error causado por pandas o csv
-# @app.errorhandler(Exception)
-# def fieldError(e):
-#     return redirect('/dataVerification')
+@app.errorhandler(Exception)
+def fieldError(e):
+    return redirect('/dataVerification')
 
 
 # debug=False or it wotn return Error 500
