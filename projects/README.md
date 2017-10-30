@@ -1,1 +1,1 @@
-# Flask school projects
+# Learning Flask
