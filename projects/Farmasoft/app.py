@@ -68,7 +68,6 @@ def register():
 def verificacionDatos():
     if 'username' in session:
         fileStatus = data_manipulation.error_check()
-        salesList = data_manipulation.show_last_sales()
         return render_template('dataVerification.html',
                                 fileStatus=fileStatus,
                                 username=session.get('username'))
