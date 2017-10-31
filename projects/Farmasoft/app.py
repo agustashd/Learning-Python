@@ -66,24 +66,25 @@ def register():
 
 @app.route('/lastSales')
 def ultimsVentas():
-    fileStatus = data_manipulation.error_check()
     if 'username' in session:
+        fileStatus = data_manipulation.error_check()
         if not fileStatus:
             salesList = data_manipulation.show_last_sales()
             return render_template('lastSales.html',
                                     row1=data_manipulation.HEADERS,
                                     dataTable=salesList,
                                     username=session.get('username'))
-    return render_template('lastSales.html',
-                            fileStatus=fileStatus,
-                            username=session.get('username'))
+        return render_template('lastSales.html',
+                                fileStatus=fileStatus,
+                                username=session.get('username'))
+    flash('Debe estar logueado para acceder al modulo')
+    return redirect('/login')
 
 @app.route('/productosPorCliente', methods=['GET', 'POST'])
 def productosPorCliente():
-    fileStatus = data_manipulation.error_check()
-    clientList = ''
-    queryForm = QueryForm()
     if 'username' in session:
+        fileStatus = data_manipulation.error_check()
+        queryForm = QueryForm()
         clientList = data_manipulation.get_client_list()
         if not fileStatus:
             # if queryForm.validate_on_submit():
@@ -98,18 +99,19 @@ def productosPorCliente():
                                         form=queryForm,
                                         username=session.get('username'))
             flash('Por favor seleccione un cliente de la lista')
-    return render_template('productosPorCliente.html',
-                            clientList=clientList,
-                            form=queryForm,
-                            fileStatus=fileStatus,
-                            username=session.get('username'))
+        return render_template('productosPorCliente.html',
+                                clientList=clientList,
+                                form=queryForm,
+                                fileStatus=fileStatus,
+                                username=session.get('username'))
+    flash('Debe estar logueado para acceder al modulo')
+    return redirect('/login')
 
 @app.route('/clientesPorProducto', methods=['GET', 'POST'])
 def clientesPorProducto():
-    fileStatus = data_manipulation.error_check()
-    productList = ''
-    queryForm = QueryForm()
     if 'username' in session:
+        fileStatus = data_manipulation.error_check()
+        queryForm = QueryForm()
         productList = data_manipulation.get_product_list()
         if not fileStatus:
             # if queryForm.validate_on_submit():
@@ -124,16 +126,18 @@ def clientesPorProducto():
                                         form=queryForm,
                                         username=session.get('username'))
             flash('Por favor seleccione un producto de la lista')
-    return render_template('clientesPorProducto.html',
-                            productList=productList,
-                            form=queryForm,
-                            fileStatus=fileStatus,
-                            username=session.get('username'))
+        return render_template('clientesPorProducto.html',
+                                productList=productList,
+                                form=queryForm,
+                                fileStatus=fileStatus,
+                                username=session.get('username'))
+    flash('Debe estar logueado para acceder al modulo')
+    return redirect('/login')
 
 @app.route('/mejoresClientes')
 def mejoresClientes():
-    fileStatus = data_manipulation.error_check()
     if 'username' in session:
+        fileStatus = data_manipulation.error_check()
         if not fileStatus:
             clientsList = data_manipulation.show_best_clients()
             fileHeader = ['CLIENTE', 'TOTAL GASTADO']
@@ -141,14 +145,16 @@ def mejoresClientes():
                                     row1=fileHeader,
                                     dataTable=clientsList,
                                     username=session.get('username'))
-    return render_template('mejoresClientes.html',
-                             fileStatus=fileStatus,
-                             username=session.get('username'))
+        return render_template('mejoresClientes.html',
+                                fileStatus=fileStatus,
+                                username=session.get('username'))
+    flash('Debe estar logueado para acceder al modulo')
+    return redirect('/login')
 
 @app.route('/productosMasVendidos')
 def productosMasVendidos():
-    fileStatus = data_manipulation.error_check()
     if 'username' in session:
+        fileStatus = data_manipulation.error_check()
         if not fileStatus:
             productList = data_manipulation.hot_items()
             fileHeader = ['CODIGO', 'PRODUCTO', 'CANTIDAD']
@@ -156,9 +162,11 @@ def productosMasVendidos():
                                     row1=fileHeader,
                                     dataTable=productList,
                                     username=session.get('username'))
-    return render_template('productosMasVendidos.html',
-                            fileStatus=fileStatus,
-                            username=session.get('username'))
+        return render_template('productosMasVendidos.html',
+                                fileStatus=fileStatus,
+                                username=session.get('username'))
+    flash('Debe estar logueado para acceder al modulo')
+    return redirect('/login')
 
 @app.errorhandler(404)
 def notFoundError(e):

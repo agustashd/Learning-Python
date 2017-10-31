@@ -4,60 +4,57 @@
 
 {% block page_content %}
 <div class="page-header table-responsive">
-{% if username %}
-    <h1>Clientes por producto</h1><br>
-    <!-- autocomplete off para que el browser no guarde ingresos erroneos en el formulario -->
-    <form autocomplete="off" method="POST" action="/clientesPorProducto">
-    {{form.autocompleteInput(list="id_datalist", size=40)}}
-    <datalist id= "id_datalist">
-    {% for entry in productList %}
-        <option value= '{{ entry }}'>
+
+<h1>Clientes por producto</h1><br>
+<!-- autocomplete off para que el browser no guarde ingresos erroneos en el formulario -->
+<form autocomplete="off" method="POST" action="/clientesPorProducto">
+{{form.autocompleteInput(list="id_datalist", size=40)}}
+<datalist id= "id_datalist">
+{% for entry in productList %}
+    <option value= '{{ entry }}'>
+{% endfor %}
+</datalist>
+<button type="submit" title="Save this form"><span>Buscar</span></button>
+<!-- <input type="submit"> -->
+<!-- {{ form.submit }} -->
+{% with messages = get_flashed_messages() %}
+    {% if messages %}  
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+</form>
+{% if fileStatus %}
+    <table class="table table-bordered table-hover">
+    <thead><th class="bg-warning">Verifique la base de datos antes de continuar!</th></thead>
+    <tbody>
+    <tr>
+    {% for status in fileStatus %}
+    <td>{{ status }}</td>
     {% endfor %}
-    </datalist>
-    <button type="submit" title="Save this form"><span>Buscar</span></button>
-    <!-- <input type="submit"> -->
-    <!-- {{ form.submit }} -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}  
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    </form>
-    {% if fileStatus %}
-        <table class="table table-bordered table-hover">
-        <thead><th class="bg-warning">Verifique la base de datos antes de continuar!</th></thead>
-        <tbody>
-        <tr>
-        {% for status in fileStatus %}
-        <td>{{ status }}</td>
-        {% endfor %}
-        </tr>
-        </tbody>
-        </table>
-    {% else %}
-        <table class="table table-bordered table-hover">
-        <thead>
-        <tr>
-        {% for col in row1 %}
-            <th class="bg-success">{{ col }}</th>
-        {% endfor %}
-        </tr>
-        </thead>
-        <tbody>
-        {% for row in dataTable %}
-            <tr>
-            {% for col in row %}
-            <td>{{ col }}</td>
-            {% endfor %}
-            </tr>
-        {% endfor %}
-        </tbody>
-        </table>
-    {% endif %}  
+    </tr>
+    </tbody>
+    </table>
 {% else %}
-    <h1>Necesita estar logeado para ver esta seccion. Ingrese <a href="/login">aqui!</a></h1>        
-{% endif %}    
+    <table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+    {% for col in row1 %}
+        <th class="bg-success">{{ col }}</th>
+    {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in dataTable %}
+        <tr>
+        {% for col in row %}
+        <td>{{ col }}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endif %}   
 </div>
 {% endblock %}
