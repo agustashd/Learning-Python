@@ -55,8 +55,8 @@ def register():
         if userData[1] != regForm.repassword.data:
             error = True
             flash('Las contraseñas no coinciden')
-        userCreationStatus = data_manipulation.create_user(userData)
         if not error:
+            userCreationStatus = data_manipulation.create_user(userData)
             if not userCreationStatus:
                 flash('Usuario creado satisfactoriamente! Ahora puede ingresar')
                 return redirect('/login')
@@ -66,8 +66,8 @@ def register():
 
 @app.route('/lastSales')
 def ultimsVentas():
+    fileStatus = data_manipulation.error_check()
     if 'username' in session:
-        fileStatus = data_manipulation.error_check()
         if not fileStatus:
             salesList = data_manipulation.show_last_sales()
             return render_template('lastSales.html',
@@ -80,9 +80,9 @@ def ultimsVentas():
 
 @app.route('/productosPorCliente', methods=['GET', 'POST'])
 def productosPorCliente():
+    fileStatus = data_manipulation.error_check()
     if 'username' in session:
         queryForm = QueryForm()
-        fileStatus = data_manipulation.error_check()
         clientList = data_manipulation.get_client_list()
         if not fileStatus:
             # if queryForm.validate_on_submit():
@@ -105,9 +105,9 @@ def productosPorCliente():
 
 @app.route('/clientesPorProducto', methods=['GET', 'POST'])
 def clientesPorProducto():
+    fileStatus = data_manipulation.error_check()
     if 'username' in session:
         queryForm = QueryForm()
-        fileStatus = data_manipulation.error_check()
         productList = data_manipulation.get_product_list()
         if not fileStatus:
             # if queryForm.validate_on_submit():
@@ -130,8 +130,8 @@ def clientesPorProducto():
 
 @app.route('/mejoresClientes')
 def mejoresClientes():
+    fileStatus = data_manipulation.error_check()
     if 'username' in session:
-        fileStatus = data_manipulation.error_check()
         if not fileStatus:
             clientsList = data_manipulation.show_best_clients()
             fileHeader = ['CLIENTE', 'TOTAL GASTADO']
@@ -145,8 +145,8 @@ def mejoresClientes():
 
 @app.route('/productosMasVendidos')
 def productosMasVendidos():
+    fileStatus = data_manipulation.error_check()
     if 'username' in session:
-        fileStatus = data_manipulation.error_check()
         if not fileStatus:
             productList = data_manipulation.hot_items()
             fileHeader = ['CODIGO', 'PRODUCTO', 'CANTIDAD']
