@@ -16,7 +16,7 @@ El usuario debera registrarse mediante el boton "Registrarse" o ingresar con su 
   - Clientes por producto: se selecciona un producto de la lista y se devuelven todas los clientes que compraron dicho producto.
   - Productos mas vendidos: se muestra una lista con los 5 productos mas vendidos.
   - Mejores clientes: se muestra una lista con los 5 clientes que mas compraron.
-- Logout: link a la pantalla para hacer Logout
+- Logout: se cierra la sesion y redirecciona a la pantalla de login.
 
  Antes de mostrar las vistas se corrobora el estado de la base de datos y se informa al usuario si se encuentran errores.
 
