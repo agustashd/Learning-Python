@@ -64,89 +64,98 @@ def register():
                 flash('Error al crear el usuario en la base de datos. Codigo {}'.format(userCreationStatus))
     return render_template('register.html', form=regForm)
 
-@app.route('/dataVerification')
-def verificacionDatos():
-    if 'username' in session:
-        fileStatus = data_manipulation.error_check()
-        return render_template('dataVerification.html',
-                                fileStatus=fileStatus,
-                                username=session.get('username'))
-    return render_template('dataVerification.html', username=session.get('username'))
-
 @app.route('/lastSales')
 def ultimsVentas():
     if 'username' in session:
-        salesList = data_manipulation.show_last_sales()
-        return render_template('lastSales.html',
-                                row1=data_manipulation.HEADERS,
-                                dataTable=salesList,
-                                username=session.get('username'))
-    return render_template('lastSales.html', username=session.get('username'))
-
-@app.route('/mejoresClientes')
-def mejoresClientes():
-    if 'username' in session:
-        clientsList = data_manipulation.show_best_clients()
-        fileHeader = ['CLIENTE', 'TOTAL GASTADO']
-        return render_template('mejoresClientes.html',
-                                row1=fileHeader,
-                                dataTable=clientsList,
-                                username=session.get('username'))
-    return render_template('mejoresClientes.html', username=session.get('username'))
-
-@app.route('/productosMasVendidos')
-def productosMasVendidos():
-    if 'username' in session:
-        productList = data_manipulation.hot_items()
-        fileHeader = ['CODIGO', 'PRODUCTO', 'CANTIDAD']
-        return render_template('productosMasVendidos.html',
-                                row1=fileHeader,
-                                dataTable=productList,
-                                username=session.get('username'))
-    return render_template('productosMasVendidos.html', username=session.get('username'))
+        fileStatus = data_manipulation.error_check()
+        if not fileStatus:
+            salesList = data_manipulation.show_last_sales()
+            return render_template('lastSales.html',
+                                    row1=data_manipulation.HEADERS,
+                                    dataTable=salesList,
+                                    username=session.get('username'))
+    return render_template('lastSales.html',
+                            fileStatus=fileStatus,
+                            username=session.get('username'))
 
 @app.route('/productosPorCliente', methods=['GET', 'POST'])
 def productosPorCliente():
     if 'username' in session:
         queryForm = QueryForm()
+        fileStatus = data_manipulation.error_check()
         clientList = data_manipulation.get_client_list()
-        # if queryForm.validate_on_submit():
-        # No funciona el validate_on_submit, lo salteo con otro if
-        if queryForm.autocompleteInput.data in clientList:
-            fileHeader = ['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO']
-            productList = data_manipulation.products_by_client(queryForm.autocompleteInput.data)
-            return render_template('productosPorCliente.html',
-                                    row1=fileHeader,
-                                    dataTable=productList,
-                                    clientList=clientList,
-                                    form=queryForm,
-                                    username=session.get('username'))
-        flash('Por favor seleccione un cliente de la lista')
+        if not fileStatus:
+            # if queryForm.validate_on_submit():
+            # No funciona el validate_on_submit, lo salteo con otro if
+            if queryForm.autocompleteInput.data in clientList:
+                fileHeader = ['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO']
+                productList = data_manipulation.products_by_client(queryForm.autocompleteInput.data)
+                return render_template('productosPorCliente.html',
+                                        row1=fileHeader,
+                                        dataTable=productList,
+                                        clientList=clientList,
+                                        form=queryForm,
+                                        username=session.get('username'))
+            flash('Por favor seleccione un cliente de la lista')
     return render_template('productosPorCliente.html',
                             clientList=clientList,
                             form=queryForm,
+                            fileStatus=fileStatus,
                             username=session.get('username'))
 
 @app.route('/clientesPorProducto', methods=['GET', 'POST'])
 def clientesPorProducto():
     if 'username' in session:
         queryForm = QueryForm()
+        fileStatus = data_manipulation.error_check()
         productList = data_manipulation.get_product_list()
-        # if queryForm.validate_on_submit():
-        # No funciona el validate_on_submit, lo salteo con otro if
-        if queryForm.autocompleteInput.data in productList:
-            fileHeader = ['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO']
-            clientList = data_manipulation.clients_by_product(queryForm.autocompleteInput.data)
-            return render_template('clientesPorProducto.html',
-                                    row1=fileHeader,
-                                    dataTable=clientList,
-                                    productList=productList,
-                                    form=queryForm,
-                                    username=session.get('username'))
-        flash('Por favor seleccione un producto de la lista')
+        if not fileStatus:
+            # if queryForm.validate_on_submit():
+            # No funciona el validate_on_submit, lo salteo con otro if
+            if queryForm.autocompleteInput.data in productList:
+                fileHeader = ['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO']
+                clientList = data_manipulation.clients_by_product(queryForm.autocompleteInput.data)
+                return render_template('clientesPorProducto.html',
+                                        row1=fileHeader,
+                                        dataTable=clientList,
+                                        productList=productList,
+                                        form=queryForm,
+                                        username=session.get('username'))
+            flash('Por favor seleccione un producto de la lista')
     return render_template('clientesPorProducto.html',
                             productList=productList,
                             form=queryForm,
+                            fileStatus=fileStatus,
+                            username=session.get('username'))
+
+@app.route('/mejoresClientes')
+def mejoresClientes():
+    if 'username' in session:
+        fileStatus = data_manipulation.error_check()
+        if not fileStatus:
+            clientsList = data_manipulation.show_best_clients()
+            fileHeader = ['CLIENTE', 'TOTAL GASTADO']
+            return render_template('mejoresClientes.html',
+                                    row1=fileHeader,
+                                    dataTable=clientsList,
+                                    username=session.get('username'))
+    return render_template('mejoresClientes.html',
+                             fileStatus=fileStatus,
+                             username=session.get('username'))
+
+@app.route('/productosMasVendidos')
+def productosMasVendidos():
+    if 'username' in session:
+        fileStatus = data_manipulation.error_check()
+        if not fileStatus:
+            productList = data_manipulation.hot_items()
+            fileHeader = ['CODIGO', 'PRODUCTO', 'CANTIDAD']
+            return render_template('productosMasVendidos.html',
+                                    row1=fileHeader,
+                                    dataTable=productList,
+                                    username=session.get('username'))
+    return render_template('productosMasVendidos.html',
+                            fileStatus=fileStatus,
                             username=session.get('username'))
 
 @app.errorhandler(404)
@@ -163,9 +172,9 @@ def fileNotFound(e):
 
 # No es lo ideal, se podria sacar pero intenta
 # contemplar cualquier error causado por pandas o csv
-@app.errorhandler(Exception)
-def fieldError(e):
-    return redirect('/dataVerification')
+# @app.errorhandler(Exception)
+# def fieldError(e):
+#     return redirect('/dataVerification')
 
 
 # debug=False o no devuelve codigo de error 500

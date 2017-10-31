@@ -22,7 +22,7 @@ def error_check():
     '''
     Chequea errores en el archivo de datos de la farmacia sin saber
     el orden de las columnas
-    Returns: lista indicando el estado del archivo
+    Returns: lista con los errores
     '''
     with open(STORE_DATA, newline='') as csvFile:
         n = 0
@@ -48,10 +48,7 @@ def error_check():
                 float(row[precio])
             except ValueError:
                 errorList.append('El campo PRECIO de la linea {} de la base de datos no es un valor decimal.'.format(n))
-    if errorList:
-        return errorList
-    else:
-        return ['No se encontro ningun error en la base de datos.']
+    return errorList
 
 def login_data_check(userData):
     '''
@@ -100,35 +97,10 @@ def show_last_sales():
     Obtiene las ventas mas nuevas
     Returns: objeto iterable con los resultados
     '''
-    df = pd.read_csv(STORE_DATA, skiprows=1)
+    df = pd.read_csv(STORE_DATA)
     salesList = df.tail(5).iloc[::-1]
     salesList = salesList.as_matrix()
     return salesList
-
-def show_best_clients():
-    '''
-    Muestra los clientes que mas plata gastaron
-    Returns: objeto iterable con los resultados
-    '''
-    df = pd.read_csv(STORE_DATA)
-    df['totalGastado'] = df['CANTIDAD']*df['PRECIO']
-    clientsList = df.groupby(by=['CLIENTE'], as_index=False).sum()
-    clientsList = clientsList.sort_values(by=['totalGastado'])
-    clientsList = clientsList.tail(5).iloc[::-1]
-    clientsList = clientsList.as_matrix(columns=['CLIENTE', 'totalGastado'])
-    return clientsList
-
-def hot_items():
-    '''
-    Muestra los productos mas vendidos
-    Returns: objeto iterable con los resultados
-    '''
-    df = pd.read_csv(STORE_DATA)
-    productsList = df.groupby(by=['PRODUCTO'], as_index=False).sum()
-    productsList = productsList.sort_values(by=['CANTIDAD'])
-    productsList = productsList.tail(5).iloc[::-1]
-    productsList = productsList.as_matrix(columns=['CODIGO', 'PRODUCTO', 'CANTIDAD'])
-    return productsList
 
 def get_client_list():
     '''
@@ -169,3 +141,28 @@ def clients_by_product(productName):
     clientList = clientList.groupby(by=['CODIGO', 'CLIENTE', 'PRODUCTO'], as_index=False).sum().iloc[::-1]
     clientList = clientList.as_matrix(columns=['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO'])
     return clientList
+
+def hot_items():
+    '''
+    Muestra los productos mas vendidos
+    Returns: objeto iterable con los resultados
+    '''
+    df = pd.read_csv(STORE_DATA)
+    productsList = df.groupby(by=['PRODUCTO'], as_index=False).sum()
+    productsList = productsList.sort_values(by=['CANTIDAD'])
+    productsList = productsList.tail(5).iloc[::-1]
+    productsList = productsList.as_matrix(columns=['CODIGO', 'PRODUCTO', 'CANTIDAD'])
+    return productsList
+
+def show_best_clients():
+    '''
+    Muestra los clientes que mas plata gastaron
+    Returns: objeto iterable con los resultados
+    '''
+    df = pd.read_csv(STORE_DATA)
+    df['totalGastado'] = df['CANTIDAD']*df['PRECIO']
+    clientsList = df.groupby(by=['CLIENTE'], as_index=False).sum()
+    clientsList = clientsList.sort_values(by=['totalGastado'])
+    clientsList = clientsList.tail(5).iloc[::-1]
+    clientsList = clientsList.as_matrix(columns=['CLIENTE', 'totalGastado'])
+    return clientsList
