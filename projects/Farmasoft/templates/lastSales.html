@@ -4,41 +4,37 @@
 
 {% block page_content %}
 <div class="page-header table-responsive">
-{% if username %}
-    <h1>Ultimas ventas</h1><br>
-    {% if fileStatus %}
-    <table class="table table-bordered table-hover">
-        <thead><th class="bg-warning">Verifique la base de datos antes de continuar!</th></thead>
-        <tbody>
-        <tr>
-            {% for status in fileStatus %}
-            <td>{{ status }}</td>
-            {% endfor %}
-        </tr>
-        </tbody>
-    </table>
-    {% else %}
-    <table class="table table-bordered table-hover">
-    <thead>
+<h1>Ultimas ventas</h1><br>
+{% if fileStatus %}
+<table class="table table-bordered table-hover">
+    <thead><th class="bg-warning">Verifique la base de datos antes de continuar!</th></thead>
+    <tbody>
     <tr>
-        {% for col in row1 %}
-        <th class="bg-success">{{ col }}</th>
+        {% for status in fileStatus %}
+        <td>{{ status }}</td>
         {% endfor %}
     </tr>
-    </thead>
-    <tbody>
-        {% for row in dataTable %}
-        <tr>
-            {% for col in row %}
-            <td>{{ col }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
     </tbody>
-    </table>
-    {% endif %}
+</table>
 {% else %}
-<h1>Necesita estar logeado para ver esta seccion. Ingrese <a href="/login">aqui!</a></h1>        
-{% endif %}    
+<table class="table table-bordered table-hover">
+<thead>
+<tr>
+    {% for col in row1 %}
+    <th class="bg-success">{{ col }}</th>
+    {% endfor %}
+</tr>
+</thead>
+<tbody>
+    {% for row in dataTable %}
+    <tr>
+        {% for col in row %}
+        <td>{{ col }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endif %} 
 </div>
 {% endblock %}
