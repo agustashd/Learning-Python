@@ -12,11 +12,11 @@ El usuario debera registrarse mediante el boton "Registrarse" o ingresar con su 
 1. Inicio: bienvenida al usuario acompañada de un link a la pantalla para hacer Logout.
 2. Ultimas ventas: tabla con las ultimas 5 ventas realizadas.
 3. Consultas
-  A. Productos por cliente: se selecciona un cliente de la lista y se devuelven todas los productos comprados por el mismo.
-  B. Clientes por producto: se selecciona un producto de la lista y se devuelven todas los clientes que compraron dicho producto.
-  C. Productos mas vendidos: se muestra una lista con los 5 productos mas vendidos.
-  D. Mejores clientes: se muestra una lista con los 5 clientes que mas compraron.
-5. Logout: link a la pantalla para hacer Logout
+  - Productos por cliente: se selecciona un cliente de la lista y se devuelven todas los productos comprados por el mismo.
+  - Clientes por producto: se selecciona un producto de la lista y se devuelven todas los clientes que compraron dicho producto.
+  - Productos mas vendidos: se muestra una lista con los 5 productos mas vendidos.
+  - Mejores clientes: se muestra una lista con los 5 clientes que mas compraron.
+4. Logout: link a la pantalla para hacer Logout
 
 ## Clases diseñadas
 Se diseñaron 3 clases de formularios ya que tenian distintos campos y funciones.
