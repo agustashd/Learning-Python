@@ -81,8 +81,9 @@ def ultimsVentas():
 @app.route('/productosPorCliente', methods=['GET', 'POST'])
 def productosPorCliente():
     fileStatus = data_manipulation.error_check()
+    clientList = ''
+    queryForm = QueryForm()
     if 'username' in session:
-        queryForm = QueryForm()
         clientList = data_manipulation.get_client_list()
         if not fileStatus:
             # if queryForm.validate_on_submit():
@@ -106,8 +107,9 @@ def productosPorCliente():
 @app.route('/clientesPorProducto', methods=['GET', 'POST'])
 def clientesPorProducto():
     fileStatus = data_manipulation.error_check()
+    productList = ''
+    queryForm = QueryForm()
     if 'username' in session:
-        queryForm = QueryForm()
         productList = data_manipulation.get_product_list()
         if not fileStatus:
             # if queryForm.validate_on_submit():
