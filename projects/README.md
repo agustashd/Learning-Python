@@ -9,14 +9,14 @@ Se utiliza el lenguaje Python en su version 3.6 para el archivo principal, el mo
 ## Uso del programa
 El usuario debera registrarse mediante el boton "Registrarse" o ingresar con su cuenta con el boton de "Login", ambos ubicados en la esquina superior derecha de la pantalla. Una vez ingresado, el usuario es bienvenido y se le habilitan las funciones centrales del programa.
 
-1. Inicio: bienvenida al usuario acompañada de un link a la pantalla para hacer Logout.
-2. Ultimas ventas: tabla con las ultimas 5 ventas realizadas.
-3. Consultas
+- Inicio: bienvenida al usuario acompañada de un link a la pantalla para hacer Logout.
+- Ultimas ventas: tabla con las ultimas 5 ventas realizadas.
+- Consultas: todas las consultas siguientes poseen una verificacion que corrobora el estado de la base de datos e informa al usuario los errores encontrados si los hubiere
   - Productos por cliente: se selecciona un cliente de la lista y se devuelven todas los productos comprados por el mismo.
   - Clientes por producto: se selecciona un producto de la lista y se devuelven todas los clientes que compraron dicho producto.
   - Productos mas vendidos: se muestra una lista con los 5 productos mas vendidos.
   - Mejores clientes: se muestra una lista con los 5 clientes que mas compraron.
-4. Logout: link a la pantalla para hacer Logout
+- Logout: link a la pantalla para hacer Logout
 
 ## Clases diseñadas
 Se diseñaron 3 clases de formularios ya que tenian distintos campos y funciones.
