@@ -1,9 +1,9 @@
 from flask import Flask, render_template, url_for, redirect, flash, session
 from flask_bootstrap import Bootstrap
-from forms import LogForm, RegForm, QueryForm
-from datetime import datetime
 from flask_moment import Moment
 from flask_script import Manager
+from datetime import datetime
+from forms import LogForm, RegForm, QueryForm
 import data_manipulation
 
 
