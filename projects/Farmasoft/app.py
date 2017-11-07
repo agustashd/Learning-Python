@@ -87,8 +87,6 @@ def productosPorCliente():
         queryForm = QueryForm()
         clientList = data_manipulation.get_client_list()
         if not fileStatus:
-            # if queryForm.validate_on_submit():
-            # No funciona el validate_on_submit, lo salteo con otro if
             if queryForm.autocompleteInput.data in clientList:
                 fileHeader = ['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO']
                 productList = data_manipulation.products_by_client(queryForm.autocompleteInput.data)
@@ -114,8 +112,6 @@ def clientesPorProducto():
         queryForm = QueryForm()
         productList = data_manipulation.get_product_list()
         if not fileStatus:
-            # if queryForm.validate_on_submit():
-            # No funciona el validate_on_submit, lo salteo con otro if
             if queryForm.autocompleteInput.data in productList:
                 fileHeader = ['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO']
                 clientList = data_manipulation.clients_by_product(queryForm.autocompleteInput.data)
@@ -179,13 +175,6 @@ def internalError(e):
 @app.errorhandler(FileNotFoundError)
 def fileNotFound(e):
     return render_template('fileNotFound.html', username=session.get('username'))
-
-# No es lo ideal, se podria sacar pero intenta
-# contemplar cualquier error causado por pandas o csv
-# @app.errorhandler(Exception)
-# def fieldError(e):
-#     return redirect('/dataVerification')
-
 
 # debug=False o no devuelve codigo de error 500
 if __name__ == "__main__":
