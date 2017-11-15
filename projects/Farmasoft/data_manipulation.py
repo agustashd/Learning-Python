@@ -99,6 +99,7 @@ def show_last_sales():
     '''
     df = pd.read_csv(STORE_DATA)
     salesList = df.tail(5).iloc[::-1]
+    salesList.to_csv('tabla.csv', index=False)
     salesList = salesList.as_matrix()
     return salesList
 
@@ -119,6 +120,7 @@ def products_by_client(clientName):
     df = pd.read_csv(STORE_DATA)
     productList = df[df.CLIENTE == clientName]
     productList = productList.groupby(by=['CODIGO', 'CLIENTE', 'PRODUCTO'], as_index=False).sum().iloc[::-1]
+    productList.to_csv('tabla.csv', columns=['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO'], index=False)
     productList = productList.as_matrix(columns=['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO'])
     return productList
 
@@ -139,6 +141,7 @@ def clients_by_product(productName):
     df = pd.read_csv(STORE_DATA)
     clientList = df[df.PRODUCTO == productName]
     clientList = clientList.groupby(by=['CODIGO', 'CLIENTE', 'PRODUCTO'], as_index=False).sum().iloc[::-1]
+    clientList.to_csv('tabla.csv',columns=['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO'], index=False)
     clientList = clientList.as_matrix(columns=['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO'])
     return clientList
 
@@ -151,6 +154,7 @@ def hot_items():
     productsList = df.groupby(by=['PRODUCTO'], as_index=False).sum()
     productsList = productsList.sort_values(by=['CANTIDAD'])
     productsList = productsList.tail(5).iloc[::-1]
+    productsList.to_csv('tabla.csv',columns=['CODIGO', 'PRODUCTO', 'CANTIDAD'], index=False)
     productsList = productsList.as_matrix(columns=['CODIGO', 'PRODUCTO', 'CANTIDAD'])
     return productsList
 
@@ -160,9 +164,10 @@ def show_best_clients():
     Returns: objeto iterable con los resultados
     '''
     df = pd.read_csv(STORE_DATA)
-    df['totalGastado'] = df['CANTIDAD']*df['PRECIO']
+    df['TOTALGASTADO'] = df['CANTIDAD']*df['PRECIO']
     clientsList = df.groupby(by=['CLIENTE'], as_index=False).sum()
-    clientsList = clientsList.sort_values(by=['totalGastado'])
+    clientsList = clientsList.sort_values(by=['TOTALGASTADO'])
     clientsList = clientsList.tail(5).iloc[::-1]
-    clientsList = clientsList.as_matrix(columns=['CLIENTE', 'totalGastado'])
+    clientsList.to_csv('tabla.csv',columns=['CLIENTE', 'TOTALGASTADO'], index=False)
+    clientsList = clientsList.as_matrix(columns=['CLIENTE', 'TOTALGASTADO'])
     return clientsList

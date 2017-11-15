@@ -13,7 +13,7 @@
 <option value= '{{ entry }}'>
 {% endfor %}
 </datalist>
-<button type="submit" title="Save this form"><span>Buscar</span></button>
+<button type="submit" title="Buscar"><span>Buscar</span></button>
 <!-- <input type="submit"> -->
 <!-- {{ form.submit }} -->
 
@@ -37,6 +37,9 @@
     </tbody>
     </table>
 {% else %}
+    {% if row1 %}
+    <a href="/export">Exportar tabla como csv</a>
+    {% endif %}
     <table class="table table-bordered table-hover">
     <thead>
     <tr>

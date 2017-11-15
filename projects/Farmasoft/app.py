@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, flash, session
+from flask import Flask, render_template, url_for, redirect, flash, session, send_file
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_script import Manager
@@ -164,6 +164,14 @@ def productosMasVendidos():
     flash('Debe estar logueado para acceder al modulo')
     return redirect('/login')
 
+@app.route('/export')
+def exportar():
+    if 'username' in session:
+        return send_file('tabla.csv', as_attachment=True)
+    flash('Debe estar logueado para acceder al modulo')
+    return redirect('/login')
+
+
 @app.errorhandler(404)
 def notFoundError(e):
     return render_template('404.html', username=session.get('username')), 404
@@ -174,6 +182,10 @@ def internalError(e):
 
 @app.errorhandler(FileNotFoundError)
 def fileNotFound(e):
+    return render_template('fileNotFound.html', username=session.get('username'))
+
+@app.errorhandler(IOError)
+def IO(e):
     return render_template('fileNotFound.html', username=session.get('username'))
 
 # debug=False o no devuelve codigo de error 500

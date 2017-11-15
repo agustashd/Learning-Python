@@ -4,25 +4,25 @@
 
 {% block page_content %}
 <div class="page-header">
-<form method="POST" action="/register">
-{{ form.csrf_token }}
-{{ form.username.label }}<br>
-{{ form.username(size=20) }}<br>
-{{ form.password.label }}<br>
-{{ form.password(size=20) }} <br>
-{{ form.repassword.label }}<br>
-{{ form.repassword(size=20) }}<br>
-<div style="color:red">
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            {{ message }}<br>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-</div>
-<br>
-{{ form.submit }}
-</form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-warning">
+            {% for message in messages %}
+                {{ message }}<br>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <form method="POST" action="/register">
+    {{ form.csrf_token }}
+    {{ form.username.label }}<br>
+    {{ form.username(size=20) }}<br>
+    {{ form.password.label }}<br>
+    {{ form.password(size=20) }} <br>
+    {{ form.repassword.label }}<br>
+    {{ form.repassword(size=20) }}<br>
+    <br>
+    {{ form.submit }}
+    </form>
 </div>
 {% endblock %}
