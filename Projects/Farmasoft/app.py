@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_script import Manager
 from datetime import datetime
-from forms import LogForm, RegForm, QueryForm
+from forms import LogForm, RegForm, EditForm, QueryForm
 import data_manipulation
 
 
@@ -63,6 +63,30 @@ def register():
             else:
                 flash('Error al crear el usuario en la base de datos. Codigo {}'.format(userCreationStatus))
     return render_template('register.html', form=regForm)
+
+@app.route('/user', methods=['GET', 'POST'])
+def user():
+    editForm = EditForm()
+    if 'username' in session:
+        if editForm.validate_on_submit():
+            error = False
+            userData = [session['username'], editForm.password.data]
+            if userData[1] != editForm.repassword.data:
+                error = True
+                flash('Las contraseñas no coinciden')
+            if not error:
+                userEditStatus = data_manipulation.edit_user(userData)
+                if not userEditStatus:
+                    flash('Contraseña editada satisfactoriamente! Por favor vuelva a ingresar')
+                    session.pop('username', None)
+                    return redirect('/login')
+                else:
+                    flash('Error al editar la contraseña en la base de datos. Codigo {}'.format(userCreationStatus))
+        return render_template('user.html',
+                                form=editForm,
+                                username=session.get('username'))
+    flash('Debe estar logueado para acceder al modulo')
+    return redirect('/login')
 
 @app.route('/lastSales')
 def ultimsVentas():

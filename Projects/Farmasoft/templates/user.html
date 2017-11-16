@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Editar{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Ingrese su nueva contraseña</h1><br>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-warning">
+            {% for message in messages %}
+                {{ message }}<br>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <form method="POST" action="/user">
+    {{ form.csrf_token }}
+    {{ form.password.label }}<br>
+    {{ form.password(size=20) }} <br>
+    {{ form.repassword.label }}<br>
+    {{ form.repassword(size=20) }}<br>
+    <br>
+    {{ form.submit }}
+    </form>
+</div>
+{% endblock %}

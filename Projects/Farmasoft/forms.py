@@ -14,5 +14,10 @@ class RegForm(FlaskForm):
     repassword = PasswordField('Enter password again:', validators=[DataRequired()])
     submit = SubmitField('Register')
 
+class EditForm(FlaskForm):
+    password = PasswordField('Password:', validators=[DataRequired()])
+    repassword = PasswordField('Enter password again:', validators=[DataRequired()])
+    submit = SubmitField('Save')
+
 class QueryForm(FlaskForm):
     autocompleteInput = StringField('autocompleteInput', validators=[DataRequired()])

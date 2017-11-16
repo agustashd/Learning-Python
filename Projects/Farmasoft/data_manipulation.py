@@ -84,13 +84,36 @@ def create_user(userData):
     userData: ['username', 'password']
     Returns: 0 si creo el usuario o message como mensaje de error
     '''
-    with open('users.csv', 'a', newline='') as csvFile:
+    with open(USERS_DATA, 'a', newline='') as csvFile:
         filewriter = csv.writer(csvFile)
         try:
             filewriter.writerow(userData)
             return 0
         except csv.Error as message:
             return message     
+
+def edit_user(userData):
+    '''
+    Intenta escribir en el csv una fila con el username y el nuevo password
+    userData: ['username', 'password']
+    Returns: 0 si edito el usuario o message como mensaje de error
+    '''
+    with open(USERS_DATA, newline='') as csvFile:
+        filereader = csv.reader(csvFile.readlines())
+    with open(USERS_DATA, 'r+', newline='') as csvFile:
+        filewriter = csv.writer(csvFile)
+        for row in filereader:
+            if row[0] == userData[0]:
+                try:
+                    filewriter.writerow(userData)
+                    return 0
+                except csv.Error as message:
+                    return message  
+            else:
+                try:
+                    filewriter.writerow(row) 
+                except csv.Error as message:
+                    return message    
 
 def show_last_sales():
     '''
