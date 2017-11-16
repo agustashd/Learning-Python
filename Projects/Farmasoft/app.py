@@ -167,7 +167,9 @@ def productosMasVendidos():
 @app.route('/export')
 def exportar():
     if 'username' in session:
-        return send_file('tabla.csv', as_attachment=True)
+        export_file_name = 'resultados_' + str(datetime.now().isoformat('_', 'seconds')) + '.csv'
+        export_file_name = export_file_name.replace('-', '').replace(':', '')
+        return send_file('tabla.csv', as_attachment=True, attachment_filename=export_file_name)
     flash('Debe estar logueado para acceder al modulo')
     return redirect('/login')
 

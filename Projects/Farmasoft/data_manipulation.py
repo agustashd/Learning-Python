@@ -94,12 +94,17 @@ def create_user(userData):
 
 def show_last_sales():
     '''
-    Obtiene las ventas mas nuevas
+    Obtiene las ventas mas nuevas y exporta el resultado
+    a un archivo csv con la descripcion de la consulta
     Returns: objeto iterable con los resultados
     '''
     df = pd.read_csv(STORE_DATA)
     salesList = df.tail(5).iloc[::-1]
     salesList.to_csv('tabla.csv', index=False)
+    with open('tabla.csv', 'r+') as tabla:
+        old = tabla.read()
+        tabla.seek(0)
+        tabla.write('Ultimas 5 ventas\n' + old)
     salesList = salesList.as_matrix()
     return salesList
 
@@ -113,7 +118,8 @@ def get_client_list():
 
 def products_by_client(clientName):
     '''
-    Muestra los productos que compro un cliente
+    Muestra los productos que compro un cliente y exporta el resultado
+    a un archivo csv con la descripcion de la consulta
     clientName: string con el nombre completo del cliente
     Returns: objeto iterable con los resultados
     '''
@@ -121,12 +127,16 @@ def products_by_client(clientName):
     productList = df[df.CLIENTE == clientName]
     productList = productList.groupby(by=['CODIGO', 'CLIENTE', 'PRODUCTO'], as_index=False).sum().iloc[::-1]
     productList.to_csv('tabla.csv', columns=['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO'], index=False)
+    with open('tabla.csv', 'r+') as tabla:
+        old = tabla.read()
+        tabla.seek(0)
+        tabla.write('Productos comprados por' + clientName + '\n' + old)
     productList = productList.as_matrix(columns=['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO'])
     return productList
 
 def get_product_list():
     '''
-    Returns: una lista de los productos
+    Returns: una lista de los productos 
     '''
     df = pd.read_csv(STORE_DATA)
     productList = df['PRODUCTO'].drop_duplicates().tolist()
@@ -134,7 +144,8 @@ def get_product_list():
 
 def clients_by_product(productName):
     '''
-    Muestra los productos que compro un cliente
+    Muestra los productos que compro un cliente y exporta el resultado
+    a un archivo csv con la descripcion de la consulta
     clientName: string con el nombre completo del cliente
     Returns: objeto iterable con los resultados
     '''
@@ -142,12 +153,17 @@ def clients_by_product(productName):
     clientList = df[df.PRODUCTO == productName]
     clientList = clientList.groupby(by=['CODIGO', 'CLIENTE', 'PRODUCTO'], as_index=False).sum().iloc[::-1]
     clientList.to_csv('tabla.csv',columns=['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO'], index=False)
+    with open('tabla.csv', 'r+') as tabla:
+        old = tabla.read()
+        tabla.seek(0)
+        tabla.write('Clientes que compraron ' + productName + '\n' + old)
     clientList = clientList.as_matrix(columns=['CODIGO', 'PRODUCTO', 'CLIENTE', 'CANTIDAD', 'PRECIO'])
     return clientList
 
 def hot_items():
     '''
-    Muestra los productos mas vendidos
+    Muestra los productos mas vendidos y exporta el resultado
+    a un archivo csv con la descripcion de la consulta
     Returns: objeto iterable con los resultados
     '''
     df = pd.read_csv(STORE_DATA)
@@ -155,12 +171,17 @@ def hot_items():
     productsList = productsList.sort_values(by=['CANTIDAD'])
     productsList = productsList.tail(5).iloc[::-1]
     productsList.to_csv('tabla.csv',columns=['CODIGO', 'PRODUCTO', 'CANTIDAD'], index=False)
+    with open('tabla.csv', 'r+') as tabla:
+        old = tabla.read()
+        tabla.seek(0)
+        tabla.write('5 Productos mas vendidos\n' + old)
     productsList = productsList.as_matrix(columns=['CODIGO', 'PRODUCTO', 'CANTIDAD'])
     return productsList
 
 def show_best_clients():
     '''
-    Muestra los clientes que mas plata gastaron
+    Muestra los clientes que mas plata gastaron y exporta el resultado
+    a un archivo csv con la descripcion de la consulta
     Returns: objeto iterable con los resultados
     '''
     df = pd.read_csv(STORE_DATA)
@@ -169,5 +190,9 @@ def show_best_clients():
     clientsList = clientsList.sort_values(by=['TOTALGASTADO'])
     clientsList = clientsList.tail(5).iloc[::-1]
     clientsList.to_csv('tabla.csv',columns=['CLIENTE', 'TOTALGASTADO'], index=False)
+    with open('tabla.csv', 'r+') as tabla:
+        old = tabla.read()
+        tabla.seek(0)
+        tabla.write('5 Mejores clientes\n' + old)
     clientsList = clientsList.as_matrix(columns=['CLIENTE', 'TOTALGASTADO'])
     return clientsList
